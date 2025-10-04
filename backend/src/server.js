@@ -20,7 +20,7 @@ async function startServer() {
     console.log("✅ Models initialized...");
 
     // 4. Sync models to the database
-    await sequelize.sync();
+    await sequelize.sync({alter: true});
     console.log("✅ Models synchronized...");
 
     // 5. Start the server

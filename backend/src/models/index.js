@@ -10,7 +10,8 @@ export const initializeModels = (sequelize) => {
   const Task = TaskFactory(sequelize);
 
   // ==> Define associations here <==
-  // e.g., User.hasMany(Task); Task.belongsTo(User);
+  User.hasMany(Task);
+  Task.belongsTo(User);
 
   // Populate the models object
   Object.assign(models, {

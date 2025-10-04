@@ -6,7 +6,7 @@ import morgan from "morgan";
 
 // Import routes
 import authRoutes from "./routes/authRoutes.js";
-
+import taskRoutes from "./routes/taskRoutes.js";
 // Load env variables
 //dotenv.config();
 
@@ -26,4 +26,6 @@ app.get("/", (req, res) => {
 // import authRoutes from "./routes/authRoutes.js";
 // app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/tasks", taskRoutes);
+
 export default app;
