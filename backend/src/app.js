@@ -1,13 +1,14 @@
 // src/app.js
-import dotenv from "dotenv";
+//import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
-import { sequelize } from "./config/db.js";
+// Import routes
+import authRoutes from "./routes/authRoutes.js";
 
 // Load env variables
-dotenv.config();
+//dotenv.config();
 
 const app = express();
 
@@ -24,5 +25,5 @@ app.get("/", (req, res) => {
 // Import routes (we’ll add them later)
 // import authRoutes from "./routes/authRoutes.js";
 // app.use("/api/v1/auth", authRoutes);
-
+app.use("/api/v1/auth", authRoutes);
 export default app;
