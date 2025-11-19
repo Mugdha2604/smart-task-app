@@ -3,13 +3,16 @@
 import jwt from "jsonwebtoken";
 
 export const protect = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const token = req.cookies.jwt; // Read 'jwt' cookie set by the server
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "No token provided" });
-  }
-
-  const token = authHeader.split(" ")[1];
+    if (!token) {
+        // If no token in cookies, try to fall back to the header (optional, but good practice)
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "No token provided" });
+        }
+        token = authHeader.split(" ")[1];
+    }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

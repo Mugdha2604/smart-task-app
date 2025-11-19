@@ -11,7 +11,7 @@ export const createTask = async (req, res) => {
     const task = await models.Task.create({
       title,
       description,
-      status: status || "pending",
+      status: status || "To Do",
       // Changed ownerId to userId to match the database schema
       UserId: req.user.id,
     });

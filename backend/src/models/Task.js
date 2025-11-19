@@ -11,10 +11,11 @@ export const TaskFactory = (sequelize) => {
     description: {
       type: DataTypes.TEXT,
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
+    status: {
+    type: DataTypes.ENUM('To Do', 'In Progress', 'Done'),
+    defaultValue: 'To Do',
+    allowNull: false,
+},
   });
 
   return Task;
