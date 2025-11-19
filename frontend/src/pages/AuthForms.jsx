@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import * as taskService from '../services/taskService.js'; // FIX: Explicitly adding .js extension is the most robust fix
+import * as taskService from '../services/taskService.js'; 
+import { toast } from 'react-toastify'; // <-- Added toast import
 
 // Reusable input style
 const inputClass = "w-full bg-slate-700 border border-slate-600 rounded-md px-4 py-2 text-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all";
@@ -18,23 +19,27 @@ export const LoginComponent = ({ onLoginSuccess, onSwitchToRegister }) => {
         setError('');
         setIsSubmitting(true);
         try {
-            // This call sets the cookie on the client
             const user = await taskService.loginUser({ email, password });
             
-            // Safely log the object and check if it exists 
-            console.log('Login Successful! User Object:', user); 
-            
             if (user && user.email) {
-                // The user object contains the user details from the backend
                 onLoginSuccess(user);
             } else {
-                // Should not happen if API returns 200, but is a safeguard
                 setError('Login failed: Invalid user data received.');
+                toast.error('Invalid credentials or user not found.'); // Notification for failed login
             }
         } catch (err) {
             console.error('Login Failed:', err.response?.data || err);
-            // We use optional chaining safely here
-            setError(err.response?.data?.error || 'Login failed. Check your credentials.');
+            const errorMessage = err.response?.data?.error || 'Login failed. Check your credentials.';
+            setError(errorMessage);
+            
+            // Check for specific error message to prompt registration
+            if (errorMessage.includes('Invalid credentials')) {
+                toast.error('Invalid username or password.'); // Specific error for invalid credentials
+            } else if (errorMessage.includes('User not found') || errorMessage.includes('Email already registered')) {
+                 toast.error('User not found. Please register.'); // Specific error for user not found
+            } else {
+                 toast.error(errorMessage);
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -82,10 +87,18 @@ export const RegisterComponent = ({ onRegisterSuccess, onSwitchToLogin }) => {
 
         try {
             await taskService.registerUser(formData);
+            
             setSuccess(true);
+            toast.success('Registration successful! Please log in.'); // Registration Success Notification
+            setTimeout(() => {
+                onRegisterSuccess(); 
+            }, 1500); 
+
         } catch (err) {
             console.error('Registration Failed:', err.response?.data || err);
-            setError(err.response?.data?.error || 'Registration failed. Try again.');
+            const errorMessage = err.response?.data?.error || 'Registration failed. Try again.';
+            setError(errorMessage);
+            toast.error(`Registration failed: ${errorMessage}`); // Registration Failure Notification
         } finally {
             setIsSubmitting(false);
         }
@@ -105,7 +118,7 @@ export const RegisterComponent = ({ onRegisterSuccess, onSwitchToLogin }) => {
                     <input type="password" name="password" placeholder="Password (min 6 chars)" value={formData.password} onChange={handleChange} required className={inputClass} />
                 </div>
                 {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-                {success && <p className="text-green-400 text-sm text-center">Registration successful! Please log in.</p>}
+                {success && <p className="text-green-400 text-sm text-center">Registration successful! Redirecting to login...</p>}
                 <button type="submit" disabled={isSubmitting || success} className={`${buttonClass} ${isSubmitting || success ? 'opacity-50 cursor-not-allowed' : ''}`}>
                     {isSubmitting ? 'Registering...' : 'Register'}
                 </button>

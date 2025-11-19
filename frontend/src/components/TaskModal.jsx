@@ -1,12 +1,13 @@
 import React from 'react';
 
+// NOTE: setFeedback prop has been removed as toastify is used directly in KanbanBoard
 const TaskModal = ({ mode, task, onSave, onClose }) => {
     const [formData, setFormData] = React.useState({
         id: task?.id || null,
         title: task?.title || '',
         description: task?.description || '',
         status: task?.status || 'To Do',
-        dueDate: task?.dueDate || '', // Will be empty string if null from service
+        dueDate: task?.dueDate || '', 
     });
 
     const handleChange = (e) => {
@@ -36,7 +37,7 @@ const TaskModal = ({ mode, task, onSave, onClose }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                              <div>
                                 <label htmlFor="dueDate" className="block text-sm font-medium text-slate-400 mb-1">Due Date</label>
-                                {/* REMOVED: required attribute to allow optional dates */}
+                                {/* Removed 'required' attribute */}
                                 <input type="date" name="dueDate" id="dueDate" value={formData.dueDate} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                             </div>
                             <div>

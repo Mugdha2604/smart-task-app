@@ -8,23 +8,20 @@ const API_BASE_URL = 'http://localhost:5000/api/v1'; // Adjust port if needed
 
 // --- Helper Function to map backend data to frontend structure ---
 const mapTaskData = (task) => {
-    // Return null if the core data is missing, so we can filter it out later
     if (!task || !task.id || !task.title) return null; 
     
-    const rawDate = task.dueDate || ''; // Use empty string for optional date field in forms
+    const rawDate = task.dueDate || ''; 
     
     return {
         id: task.id,
         title: task.title,
         description: task.description,
-        // FIX: Map the backend status field to frontend expectation. 
         status: task.status || 'To Do', 
-        // Use raw date string for form input initialization
         dueDate: rawDate 
     }
 };
 
-// --- AUTHENTICATION API CALLS (Omitted for brevity) ---
+// --- AUTHENTICATION API CALLS ---
 
 export const registerUser = async (userData) => {
     // This calls POST /api/v1/auth/register
@@ -54,10 +51,10 @@ export const getTasks = async () => {
     console.log("Fetching tasks from protected endpoint...");
     const response = await axios.get(TASK_API_URL);
     
-    // === FIX: Filter out any null or malformed data after mapping ===
+    // Filter out any null or malformed data after mapping
     return response.data
         .map(mapTaskData)
-        .filter(task => task !== null); // <-- CRITICAL FILTER
+        .filter(task => task !== null); 
 };
 
 export const addTask = async (taskData) => {
@@ -96,18 +93,24 @@ export const checkAuthStatus = async () => {
 // const API_BASE_URL = 'http://localhost:5000/api/v1'; // Adjust port if needed
 
 // // --- Helper Function to map backend data to frontend structure ---
-// const mapTaskData = (task) => ({
-//     id: task.id,
-//     title: task.title,
-//     description: task.description,
-//     // FIX: Map the backend status field to frontend expectation. 
-//     // Assuming backend returns 'status', otherwise default to 'To Do'.
-//     status: task.status || 'To Do', 
-//     // Use a placeholder or actual due date field if one exists in the backend model
-//     dueDate: task.dueDate || 'N/A' 
-// });
+// const mapTaskData = (task) => {
+//     // Return null if the core data is missing, so we can filter it out later
+//     if (!task || !task.id || !task.title) return null; 
+    
+//     const rawDate = task.dueDate || ''; // Use empty string for optional date field in forms
+    
+//     return {
+//         id: task.id,
+//         title: task.title,
+//         description: task.description,
+//         // FIX: Map the backend status field to frontend expectation. 
+//         status: task.status || 'To Do', 
+//         // Use raw date string for form input initialization
+//         dueDate: rawDate 
+//     }
+// };
 
-// // --- AUTHENTICATION API CALLS ---
+// // --- AUTHENTICATION API CALLS (Omitted for brevity) ---
 
 // export const registerUser = async (userData) => {
 //     // This calls POST /api/v1/auth/register
@@ -136,8 +139,11 @@ export const checkAuthStatus = async () => {
 // export const getTasks = async () => {
 //     console.log("Fetching tasks from protected endpoint...");
 //     const response = await axios.get(TASK_API_URL);
-//     // Apply mapping to ensure frontend displays correctly
-//     return response.data.map(mapTaskData);
+    
+//     // === FIX: Filter out any null or malformed data after mapping ===
+//     return response.data
+//         .map(mapTaskData)
+//         .filter(task => task !== null); // <-- CRITICAL FILTER
 // };
 
 // export const addTask = async (taskData) => {
