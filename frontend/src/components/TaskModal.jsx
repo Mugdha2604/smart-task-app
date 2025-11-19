@@ -1,5 +1,3 @@
-// src/components/TaskModal.jsx
-
 import React from 'react';
 
 const TaskModal = ({ mode, task, onSave, onClose }) => {
@@ -8,7 +6,7 @@ const TaskModal = ({ mode, task, onSave, onClose }) => {
         title: task?.title || '',
         description: task?.description || '',
         status: task?.status || 'To Do',
-        dueDate: task?.dueDate || '',
+        dueDate: task?.dueDate || '', // Will be empty string if null from service
     });
 
     const handleChange = (e) => {
@@ -38,7 +36,8 @@ const TaskModal = ({ mode, task, onSave, onClose }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                              <div>
                                 <label htmlFor="dueDate" className="block text-sm font-medium text-slate-400 mb-1">Due Date</label>
-                                <input type="date" name="dueDate" id="dueDate" value={formData.dueDate} onChange={handleChange} required className="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
+                                {/* REMOVED: required attribute to allow optional dates */}
+                                <input type="date" name="dueDate" id="dueDate" value={formData.dueDate} onChange={handleChange} className="w-full bg-slate-700 border border-slate-600 rounded-md px-3 py-2 text-slate-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all" />
                             </div>
                             <div>
                                 <label htmlFor="status" className="block text-sm font-medium text-slate-400 mb-1">Status</label>
