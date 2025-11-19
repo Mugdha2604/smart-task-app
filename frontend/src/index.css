@@ -1,4 +1,15 @@
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Set the base font and dark mode background 
+  for the entire body to ensure dark mode is active immediately.
+*/
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0f172a; /* Corresponds to Tailwind's bg-slate-900 */
+}
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +76,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
