@@ -4,7 +4,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 // Define the Base URL for the versioned API
-const API_BASE_URL = 'http://localhost:5000/api/v1'; // Adjust port if needed
+const API_BASE_URL = 'https://smart-task-app-h8as.onrender.com'; // Adjust port if needed
 
 // --- Helper Function to map backend data to frontend structure ---
 const mapTaskData = (task) => {
